@@ -1,0 +1,18 @@
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 150px);
+  grid-template-rows: repeat(6, 95px);
+
+  .day-name {
+    align-self: center;
+    justify-self: center;
+  }
+
+  .calendar-cell {
+    border: 1px solid black;
+
+    &.other-month {
+      background-color: rgba(255, 239, 213, 0.548);
+    }
+  }
+}

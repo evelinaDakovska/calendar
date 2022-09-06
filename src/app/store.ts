@@ -1,10 +1,10 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-/* import counterReducer from '../features/counter/counterSlice';
- */
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import dateSlice from '../slices/dateSlice';
+
 export const store = configureStore({
   reducer: {
-/*     counter: counterReducer,
- */  },
+    date: dateSlice,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;
