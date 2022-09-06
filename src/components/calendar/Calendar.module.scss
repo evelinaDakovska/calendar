@@ -12,7 +12,11 @@
     border: 1px solid black;
 
     &.other-month {
-      background-color: rgba(255, 239, 213, 0.548);
+      background-color: rgba(255, 239, 213, 0.37);
+    }
+
+    &.today{
+      background-color: rgb(158, 223, 247);
     }
   }
 }
