@@ -123,6 +123,9 @@ export const Calendar = () => {
         openModalForDate={openModalForDate}
         setOpenModal={setOpenModalForDate}
       />
+      <div style={{ marginTop: "2%" }}>
+        You can select any date and add/read tasks.
+      </div>
     </div>
   );
 };
