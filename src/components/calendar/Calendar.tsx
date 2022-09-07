@@ -1,15 +1,17 @@
+import Button from "@mui/material/Button";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "./Calendar.module.scss";
 import { DayCell } from "./DayCell";
 import { DayName } from "./DayName";
-
+import { ModalComponent } from "./Modal";
 export const Calendar = () => {
   const [today, setToday] = useState<Date>();
-  const [month, setMonth] = useState<number>(0);
+  const [month, setMonth] = useState<number>();
   const [year, setYear] = useState<number>(0);
   const [firstDay, setFirstDay] = useState<number>(0);
   const [coefficient, setCoefficient] = useState<number>(0);
+  const [openModalForDate, setOpenModalForDate] = useState<Date>();
 
   useEffect(() => {
     setToday(new Date());
@@ -47,41 +49,80 @@ export const Calendar = () => {
   const days = useMemo(
     () =>
       year !== 0 &&
-      month !== 0 &&
       Array(35)
         .fill(true)
         .map((current, index) => {
-          const currentDate = new Date(year, month);
-          currentDate.setDate(index + coefficient);
-          return <DayCell key={uuidv4()} day={currentDate} month={month} />;
+          if (month !== undefined) {
+            const currentDate = new Date(year, month);
+            currentDate.setDate(index + coefficient);
+            return (
+              <DayCell
+                openModal={setOpenModalForDate}
+                key={uuidv4()}
+                day={currentDate}
+                month={month}
+              />
+            );
+          } else {
+            return null;
+          }
         }),
     [year, month, coefficient]
   );
 
+  const nextMonthHandler = () => {
+    if (month !== undefined) {
+      const changedMonth = month + 1;
+      if (changedMonth === 12) {
+        setMonth(0);
+        setYear((prev) => prev + 1);
+      } else {
+        setMonth(changedMonth);
+      }
+    }
+  };
+
+  const prevMonthHandler = () => {
+    if (month !== undefined) {
+      const changedMonth = month - 1;
+      setMonth(changedMonth === -1 ? 11 : changedMonth);
+      if (changedMonth === -1) {
+        setYear((prev) => prev - 1);
+      }
+    }
+  };
+
+  const dateHeader =
+    month !== undefined &&
+    new Date(year, month).toLocaleString("en-US", {
+      month: "long",
+    });
+
   return (
-    <>
-      <button
-        className={styles.changeMonth}
-        onClick={() => setMonth((prev) => prev - 1)}
-      >
-        previous month
-      </button>
-      <button
-        className={styles.changeMonth}
-        onClick={() => setMonth((prev) => prev + 1)}
-      >
-        next month
-      </button>
-      <h3>
-        {new Date(year, month).toLocaleString("en-US", {
-          month: "long",
-        })}{" "}
-        {year}
+    <div className={styles.contentContainer}>
+      <h3 style={{ marginBottom: "0" }}>
+        {dateHeader} {year}
       </h3>
+      <div className={styles.btnContainer}>
+        <Button
+          onClick={prevMonthHandler}
+          variant="outlined"
+          sx={{ marginRight: "5%" }}
+        >
+          Previous month
+        </Button>
+        <Button onClick={nextMonthHandler} variant="outlined">
+          Next month
+        </Button>
+      </div>
       <div className={styles.calendar}>
         {dayNames}
         {days}
       </div>
-    </>
+      <ModalComponent
+        openModalForDate={openModalForDate}
+        setOpenModal={setOpenModalForDate}
+      />
+    </div>
   );
 };

@@ -23,3 +23,16 @@
 .changeMonth {
   width: 10%;
 }
+
+.btnContainer {
+  margin-top: 1%;
+  display: flex;
+  justify-content: center;
+}
+
+.contentContainer,
+.textField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,9 +1,9 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import dateSlice from '../slices/dateSlice';
+import taskSlice from '../slices/taskSlice';
 
 export const store = configureStore({
   reducer: {
-    date: dateSlice,
+    task: taskSlice,
   },
 });
 
